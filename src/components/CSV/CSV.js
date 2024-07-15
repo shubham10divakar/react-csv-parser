@@ -1,43 +1,60 @@
-// src/CSV.js
-import fs from 'fs';
+import React, { useState } from 'react';
 
-export const CSV = (csvInput, callback) => {
-    let csvString = csvInput;
+export const CSV = ({ onFileParsed }) => {
+  const [csvData, setCsvData] = useState([]);
+  const [parseError, setParseError] = useState(null);
 
-    // If csvInput is a file path, read the file asynchronously
-    if (fs.existsSync(csvInput)) {
-        fs.readFile(csvInput, 'utf-8', (err, data) => {
-            if (err) {
-                callback(err, null);
-                return;
-            }
-            CSVFromString(data, callback);
-        });
-    } else {
-        // Parse the CSV string directly
-        CSVFromString(csvString, callback);
-    }
-};
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-const CSVFromString = (csvString, callback) => {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const contents = e.target.result;
+      parseCSV(contents);
+    };
+
+    reader.readAsText(file);
+  };
+
+  const parseCSV = (csvText) => {
     try {
-        const lines = csvString.trim().split('\n');
-        const headers = lines[0].split(',').map(header => header.trim());
-        const data = [];
+      const lines = csvText.split('\n');
+      const headers = lines[0].split(',');
 
-        for (let i = 1; i < lines.length; i++) {
-            const values = lines[i].split(',').map(value => value.trim());
-            if (values.length === headers.length) {
-                const obj = headers.reduce((acc, header, index) => {
-                    acc[header] = values[index];
-                    return acc;
-                }, {});
-                data.push(obj);
+      const data = lines.slice(1).map(line => {
+        const values = line.split(',');
+        const entry = {};
+        headers.forEach((header, index) => {
+            console.log(values.length)
+            if(values.length>1){
+                entry[header.trim()] = values[index].trim();
             }
-        }
+        });
+        return entry;
+      });
 
-        callback(null, data);
-    } catch (err) {
-        callback(err, null);
+      setCsvData(data);
+      //console.log(data)
+      if (typeof onFileParsed === 'function') {
+        onFileParsed(data);
+      }
+    } catch (error) {
+      console.error('Error parsing CSV:', error);
+      setParseError(error);
     }
+  };
+
+  return (
+    <div>
+      <input type="file" accept=".csv" onChange={handleFileUpload} />
+      <div>
+        <h3>Parsed CSV Data:</h3>
+        {parseError && <p>Error parsing CSV file: {parseError.message}</p>}
+        <pre>{JSON.stringify(csvData, null, 2)}</pre>
+        {console.log(csvData.length)}
+      </div>
+    </div>
+  );
 };
