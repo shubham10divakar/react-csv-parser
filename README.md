@@ -25,29 +25,23 @@ Import CSV Parser component from react-csv-parser and use it in your React appli
 jsx
 
 // App.js
-import React, { useState } from 'react';
-import { storiesOf } from '@storybook/react';
-import './styles.css';
-import { CSVParser } from '../components/CSV';
+import logo from './logo.svg';
+import './App.css';
+import { CSVParser } from 'react-csv-parser';
 
-
-const stories = storiesOf('App Test', module);
-
-stories.add('App', () => {
-
-  const handleFileParsed = (data) => {
-    console.log('Parsed CSV Data:', data);
-    // Handle parsed data here, e.g., store in state or process further
+function App() {
+  const fetchdatahandler = (data) => {
+    console.log(data)
   };
 
   return (
-    <div>
-      <CSVParser onFileParsed={handleFileParsed} />
+    <div className="App">
+      <CSVParser onFileParsed={fetchdatahandler}/>
     </div>
   );
-});
+}
 
-```
+export default App;```
 
 ## Images as per above code output and some work samples
 
