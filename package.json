@@ -1,6 +1,6 @@
 {
   "name": "react-csv-parser",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "React CSV Parser is a simple React component library for reading csv files from your local and makes the data of the CSV file available in JS code for further modifications and use cases like using that data for feeding to charts and for generating statistics. ",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
