@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export const CSV = ({ onFileParsed }) => {
+export const CSVParser = ({ onFileParsed }) => {
   const [csvData, setCsvData] = useState([]);
   const [parseError, setParseError] = useState(null);
 
@@ -27,7 +27,6 @@ export const CSV = ({ onFileParsed }) => {
         const values = line.split(',');
         const entry = {};
         headers.forEach((header, index) => {
-            console.log(values.length)
             if(values.length>1){
                 entry[header.trim()] = values[index].trim();
             }
@@ -49,12 +48,6 @@ export const CSV = ({ onFileParsed }) => {
   return (
     <div>
       <input type="file" accept=".csv" onChange={handleFileUpload} />
-      <div>
-        <h3>Parsed CSV Data:</h3>
-        {parseError && <p>Error parsing CSV file: {parseError.message}</p>}
-        <pre>{JSON.stringify(csvData, null, 2)}</pre>
-        {console.log(csvData.length)}
-      </div>
     </div>
   );
 };

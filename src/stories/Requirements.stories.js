@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import './styles.css';
-//import { Requirements } from '../components/Requirements';
-import { Card } from '../components/Card/Card';
-import { CSV } from '../components/CSV';
+import { CSVParser } from '../components/CSV';
+
 
 const stories = storiesOf('App Test', module);
 
@@ -16,8 +15,7 @@ stories.add('App', () => {
 
   return (
     <div>
-      <h1>CSV Parser Example</h1>
-      <CSV onFileParsed={handleFileParsed} />
+      <CSVParser onFileParsed={handleFileParsed} />
     </div>
   );
 });
