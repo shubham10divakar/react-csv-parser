@@ -41,7 +41,8 @@ function App() {
   );
 }
 
-export default App;```
+export default App;
+```
 
 ## Images as per above code output and some work samples
 
